@@ -1,18 +1,20 @@
-import logo from "../assets/images/Standards GPT 1.png";
-import facebook from "../assets/icons/facebook.png";
-import twitter from "../assets/icons/twitter.png";
-import google from "../assets/icons/google.png";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
+import facebook from "../assets/icons/facebook.png";
+import google from "../assets/icons/google.png";
+import twitter from "../assets/icons/twitter.png";
+import logo from "../assets/images/Standards GPT 1.png";
 import { useLoginMutation } from "../redux/features/auth/authApi";
-import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { decodedToken } from "../utils/jwtDecoded";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     const userInfo = {
@@ -23,6 +25,16 @@ const Login = () => {
     const user = decodedToken(res.data.accessToken);
     dispatch(setUser({ user, token: res.data.accessToken }));
   };
+
+  const { user, token } = useAppSelector((state) => state.auth) as {
+    user: { role: string };
+    token: string;
+  };
+  useEffect(() => {
+    if (token) {
+      return navigate(`/${user?.role}/dashboard`);
+    }
+  }, [token, user, navigate]);
 
   return (
     <div className="bg-[#E9EEF1] h-screen flex justify-center items-center py-[150px]">
