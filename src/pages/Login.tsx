@@ -1,29 +1,42 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import facebook from "../assets/icons/facebook.png";
 import google from "../assets/icons/google.png";
 import twitter from "../assets/icons/twitter.png";
 import logo from "../assets/images/Standards GPT 1.png";
+import Form from "../components/Form/Form";
+import InputValue from "../components/ui/Input";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { decodedToken } from "../utils/jwtDecoded";
+import {
+  errorMessage,
+  loadingMessage,
+  successMessage,
+} from "../utils/sonnerToastMessage";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    const userInfo = {
-      id: data.id,
-      password: data.password,
-    };
-    const res = await login(userInfo).unwrap();
-    const user = decodedToken(res.data.accessToken);
-    dispatch(setUser({ user, token: res.data.accessToken }));
+  const onSubmit = async (data: FieldValues) => {
+    loadingMessage("Logging in...", 2000);
+    try {
+      const userInfo = {
+        id: data.id,
+        password: data.password,
+      };
+      const res = await login(userInfo).unwrap();
+      const user = decodedToken(res.data.accessToken);
+      dispatch(setUser({ user, token: res.data.accessToken }));
+      successMessage("Logged in successful", 4000);
+    } catch (error: any) {
+      errorMessage(error.message, 2000);
+    }
   };
 
   const { user, token } = useAppSelector((state) => state.auth) as {
@@ -46,29 +59,18 @@ const Login = () => {
           </p>
         </div>
         <div className="p-10  bg-white rounded-[10px] mt-10">
-          <form className="" onSubmit={handleSubmit(onSubmit)}>
+          <Form onSubmit={onSubmit}>
             <h4 className="text-xl font-family-lato font-extrabold text-center">
               Login
             </h4>
             <div className="mt-10">
-              <div>
-                <input
-                  type="text"
-                  required
-                  placeholder="Enter-ID"
-                  {...register("id")}
-                  className="px-5 py-3 border rounded-md w-full focus:outline-none"
-                />
-              </div>
-              <div className="mt-3">
-                <input
-                  type="password"
-                  required
-                  {...register("password")}
-                  placeholder="Password"
-                  className="px-5 py-3 border rounded-md w-full focus:outline-none"
-                />
-              </div>
+              <InputValue type="text" name="id" placeholder="Enter ID" />
+              <InputValue
+                type="password"
+                name="password"
+                placeholder="Password"
+              />
+
               <div className="mt-10">
                 <button
                   type="submit"
@@ -78,7 +80,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-          </form>
+          </Form>
 
           <div>
             <p className="text-center py-5 text-gray-600">Forgot Password?</p>
