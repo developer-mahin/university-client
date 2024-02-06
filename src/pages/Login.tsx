@@ -6,7 +6,7 @@ import facebook from "../assets/icons/facebook.png";
 import google from "../assets/icons/google.png";
 import twitter from "../assets/icons/twitter.png";
 import logo from "../assets/images/Standards GPT 1.png";
-import Form from "../components/Form/Form";
+import FormWrapper from "../components/Form/Form";
 import InputValue from "../components/ui/Input";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
@@ -59,16 +59,22 @@ const Login = () => {
           </p>
         </div>
         <div className="p-10  bg-white rounded-[10px] mt-10">
-          <Form onSubmit={onSubmit}>
+          <FormWrapper onSubmit={onSubmit}>
             <h4 className="text-xl font-family-lato font-extrabold text-center">
               Login
             </h4>
             <div className="mt-10">
-              <InputValue type="text" name="id" placeholder="Enter ID" />
+              <InputValue
+                label="ID"
+                type="text"
+                name="id"
+                placeholder="Enter ID"
+              />
               <InputValue
                 type="password"
                 name="password"
                 placeholder="Password"
+                label="Password"
               />
 
               <div className="mt-10">
@@ -80,7 +86,7 @@ const Login = () => {
                 </button>
               </div>
             </div>
-          </Form>
+          </FormWrapper>
 
           <div>
             <p className="text-center py-5 text-gray-600">Forgot Password?</p>

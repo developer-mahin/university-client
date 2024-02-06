@@ -1,3 +1,4 @@
+import { Form } from "antd";
 import Input from "antd/es/input/Input";
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -5,9 +6,10 @@ type TInputProps = {
   type: string;
   name: string;
   placeholder: string;
+  label: string;
 };
 
-const InputValue = ({ type, name, placeholder }: TInputProps) => {
+const InputValue = ({ type, name, placeholder, label }: TInputProps) => {
   const { control } = useFormContext();
 
   return (
@@ -17,18 +19,15 @@ const InputValue = ({ type, name, placeholder }: TInputProps) => {
       rules={{
         required: true,
       }}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <>
+      render={({ field }) => (
+        <Form.Item label={label}>
           <Input
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
+            {...field}
             type={type}
             placeholder={placeholder}
-            required
-            className="px-5 py-3 border rounded-md w-full focus:outline-none mt-3"
+            size="large"
           />
-        </>
+        </Form.Item>
       )}
     />
   );

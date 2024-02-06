@@ -1,1 +1,2 @@
-export * from "./routes.type"
+export * from "./routes.type";
+export * from "./global.types";
