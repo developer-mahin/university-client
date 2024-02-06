@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Col, Flex } from "antd";
+import { Button, Col, Flex, Typography } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { academicSemesterSchema } from "../../../Schemas/academiManagement.schema";
 import FormWrapper from "../../../components/Form/Form";
 import SelectComponent from "../../../components/ui/Select";
 import { monthsOption } from "../../../constant/gblobal";
 import { nameOptions, years } from "../../../constant/semester";
-import { useCreateAcademicSemesterMutation } from "../../../redux/features/admin/academiManagementApi";
-import { TResponse } from "../../../types/global.types";
+import { useCreateAcademicSemesterMutation } from "../../../redux/features/admin/academicSemesterApi";
+import { TCreateResponse } from "../../../types/global.types";
 import {
   errorMessage,
   loadingMessage,
@@ -21,6 +21,7 @@ const CreateAcademicSemester = () => {
     const toastId = loadingMessage("Creating....", 2000);
 
     const name = nameOptions[Number(data?.code) - 1]?.label;
+    
     const semesterData = {
       code: data.code,
       name,
@@ -30,11 +31,13 @@ const CreateAcademicSemester = () => {
     };
 
     try {
-      const res = (await createAcademicSemester(semesterData)) as TResponse;
+      const res = (await createAcademicSemester(
+        semesterData
+      )) as TCreateResponse;
       if (res.error) {
         errorMessage(res.error.data.message, 2000, toastId);
       } else {
-        successMessage(res.data.message, 3000, toastId);
+        successMessage(res?.data?.message, 3000, toastId);
       }
     } catch (error) {
       errorMessage("Something went wrong!!", 3000, toastId);
@@ -43,7 +46,10 @@ const CreateAcademicSemester = () => {
 
   return (
     <Flex justify="center" align="center">
-      <Col span={6}>
+      <Col span={8}>
+        <Typography className="text-xl font-medium text-gray-800 mb-4">
+          Create Academic Semester
+        </Typography>
         <FormWrapper
           onSubmit={onSubmit}
           resolver={zodResolver(academicSemesterSchema)}

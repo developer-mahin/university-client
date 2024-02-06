@@ -3,7 +3,7 @@ import { toast } from "sonner";
 export const successMessage = (
   message: string,
   duration: number,
-  id: string | number
+  id?: string | number
 ) => {
   return toast.success(message, { duration, id: id });
 };
@@ -11,7 +11,7 @@ export const successMessage = (
 export const infoMessage = (
   message: string,
   duration: number,
-  id: string | number
+  id?: string | number
 ) => {
   return toast.info(message, { duration, id: id });
 };
@@ -19,7 +19,7 @@ export const infoMessage = (
 export const errorMessage = (
   message: string,
   duration: number,
-  id: string | number
+  id?: string | number
 ) => {
   return toast.error(message, { duration, id: id });
 };

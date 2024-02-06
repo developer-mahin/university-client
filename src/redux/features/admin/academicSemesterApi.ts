@@ -2,7 +2,7 @@ import { TResponseRedux } from "../../../types";
 import {
   TAcademicSemester,
   TQueryParams,
-} from "../../../types/academicSemester.types";
+} from "../../../types/academiManagement.types";
 import { baseApi } from "../../api/baseApi";
 
 const academicManagementApi = baseApi.injectEndpoints({

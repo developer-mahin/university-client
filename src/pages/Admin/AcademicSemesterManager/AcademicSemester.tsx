@@ -1,11 +1,12 @@
-import { useState } from "react";
 import type { TableColumnsType, TableProps } from "antd";
 import { Table } from "antd";
-import { useGetAllAcademicSemesterQuery } from "../../../redux/features/admin/academiManagementApi";
+import { useState } from "react";
+import { useGetAllAcademicSemesterQuery } from "../../../redux/features/admin/academicSemesterApi";
 import {
   TAcademicSemester,
   TQueryParams,
-} from "../../../types/academicSemester.types";
+} from "../../../types/academiManagement.types";
+import "./style.css";
 
 export type TTableData = Pick<
   TAcademicSemester,
