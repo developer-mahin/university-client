@@ -2,8 +2,15 @@ import { BaseQueryApi } from "@reduxjs/toolkit/query";
 import { TAcademicSemester } from "./academiManagement.types";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+type TErrorSources = {
+  path: string;
+  message: string;
+};
+
 export type TError = {
   data: {
+    errorSources?: TErrorSources[];
     message: string;
     stack: string;
     success: boolean;

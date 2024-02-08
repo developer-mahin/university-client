@@ -1,5 +1,5 @@
 import { Table, TableColumnsType, TableProps } from "antd";
-import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/academicFacultyApi";
+import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 import { TAcademicFaculty } from "../../../types/academiManagement.types";
 
 type TTableData = Pick<TAcademicFaculty, "name">;

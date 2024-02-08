@@ -1,6 +1,6 @@
-import { TResponseRedux } from "../../../types";
-import { TAcademicDepartment } from "../../../types/academiManagement.types";
-import { baseApi } from "../../api/baseApi";
+import { TResponseRedux } from "../../../../types";
+import { TAcademicDepartment } from "../../../../types/academiManagement.types";
+import { baseApi } from "../../../api/baseApi";
 
 const academicDepartmentApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

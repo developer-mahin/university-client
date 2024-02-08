@@ -3,18 +3,26 @@ import { Button, Col, Flex, Typography } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { academicDepartmentSchema } from "../../../Schemas/academiManagement.schema";
 import FormWrapper from "../../../components/Form/Form";
-import SelectComponent from "../../../components/ui/Select";
+import SelectComponent from "../../../components/Form/Select";
 import { nameOfDepartment } from "../../../constant/academiManagement";
-import { useCreateAcademicDepartmentMutation } from "../../../redux/features/admin/academicDepartmentApi";
+import { useCreateAcademicDepartmentMutation } from "../../../redux/features/admin/AcademicManagement/academicDepartmentApi";
+import { TCreateResponse } from "../../../types";
 import {
   errorMessage,
   loadingMessage,
   successMessage,
 } from "../../../utils/sonnerToastMessage";
-import { TCreateResponse } from "../../../types";
+// import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 
 const CreateAcademicDepartment = () => {
   const [createAcademicDepartment] = useCreateAcademicDepartmentMutation();
+  // const { data: getAllAcademicFaculties } =
+  //   useGetAllAcademicFacultiesQuery(undefined);
+
+  // const departmentOptions = getAllAcademicFaculties?.data?.map((item)=>({
+  //   value:item._id,
+  //   label:item.name
+  // }));
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = loadingMessage("Loading...", 3000);
@@ -24,6 +32,7 @@ const CreateAcademicDepartment = () => {
       name: findData?.label,
       academicFaculty: findData?.value,
     };
+
     try {
       const res = (await createAcademicDepartment(
         departmentData

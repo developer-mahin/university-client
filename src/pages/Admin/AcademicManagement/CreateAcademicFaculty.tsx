@@ -3,9 +3,9 @@ import { Button, Col, Flex, Typography } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { academicFacultySchema } from "../../../Schemas/academiManagement.schema";
 import FormWrapper from "../../../components/Form/Form";
-import SelectComponent from "../../../components/ui/Select";
+import SelectComponent from "../../../components/Form/Select";
 import { nameOptions } from "../../../constant/academiManagement";
-import { useCreateAcademicFacultyMutation } from "../../../redux/features/admin/academicFacultyApi";
+import { useCreateAcademicFacultyMutation } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 import { TCreateResponse } from "../../../types";
 import {
   errorMessage,

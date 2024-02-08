@@ -3,10 +3,10 @@ import { Button, Col, Flex, Typography } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { academicSemesterSchema } from "../../../Schemas/academiManagement.schema";
 import FormWrapper from "../../../components/Form/Form";
-import SelectComponent from "../../../components/ui/Select";
+import SelectComponent from "../../../components/Form/Select";
 import { monthsOption } from "../../../constant/gblobal";
 import { nameOptions, years } from "../../../constant/semester";
-import { useCreateAcademicSemesterMutation } from "../../../redux/features/admin/academicSemesterApi";
+import { useCreateAcademicSemesterMutation } from "../../../redux/features/admin/AcademicManagement/academicSemesterApi";
 import { TCreateResponse } from "../../../types/global.types";
 import {
   errorMessage,
@@ -21,7 +21,7 @@ const CreateAcademicSemester = () => {
     const toastId = loadingMessage("Creating....", 2000);
 
     const name = nameOptions[Number(data?.code) - 1]?.label;
-    
+
     const semesterData = {
       code: data.code,
       name,

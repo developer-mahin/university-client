@@ -1,5 +1,5 @@
 import { Table, TableColumnsType, TableProps } from "antd";
-import { useGetAllAcademicDepartmentQuery } from "../../../redux/features/admin/academicDepartmentApi";
+import { useGetAllAcademicDepartmentQuery } from "../../../redux/features/admin/AcademicManagement/academicDepartmentApi";
 
 type TTableData = {
   academicFacultyName: string;
@@ -7,7 +7,7 @@ type TTableData = {
 };
 
 const AcademicDepartment = () => {
-  const { data: academicDepartments } =
+  const { data: academicDepartments, isFetching } =
     useGetAllAcademicDepartmentQuery(undefined);
 
   const tableData = academicDepartments?.data?.map(
@@ -38,7 +38,14 @@ const AcademicDepartment = () => {
     console.log("params", pagination, filters, sorter, extra);
   };
 
-  return <Table columns={columns} dataSource={tableData} onChange={onChange} />;
+  return (
+    <Table
+      columns={columns}
+      loading={isFetching}
+      dataSource={tableData}
+      onChange={onChange}
+    />
+  );
 };
 
 export default AcademicDepartment;

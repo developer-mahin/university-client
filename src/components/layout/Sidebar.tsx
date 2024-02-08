@@ -37,7 +37,7 @@ const Sidebar = () => {
       breakpoint="lg"
       collapsedWidth="0"
       width={260}
-      className="h-screen sticky top-0 left-0"
+      style={{ height: '100vh', position: 'sticky', top: '0', left: '0' }}
     >
       <div className="flex items-center justify-center h-[60px]">
         <p className="text-[26px] text-white font-semibold">University</p>

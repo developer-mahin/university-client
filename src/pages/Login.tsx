@@ -7,7 +7,7 @@ import google from "../assets/icons/google.png";
 import twitter from "../assets/icons/twitter.png";
 import logo from "../assets/images/Standards GPT 1.png";
 import FormWrapper from "../components/Form/Form";
-import InputValue from "../components/ui/Input";
+import InputValue from "../components/Form/Input";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { setUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
