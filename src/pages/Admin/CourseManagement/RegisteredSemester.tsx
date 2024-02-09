@@ -2,11 +2,17 @@
 import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
 import moment from "moment";
 import { useState } from "react";
-import { TSemester } from "../../../types/CourseManagement";
 import {
   useGetAllRegisteredSemestersQuery,
   useUpdateRegisteredSemesterMutation,
-} from "../../../redux/features/admin/CourseManagement/CourseManagement";
+} from "../../../redux/features/admin/CourseManagement/CourseManagementApi";
+import { TSemester } from "../../../types/CourseManagement";
+import { toast } from "sonner";
+import { TCreateResponse, TError } from "../../../types";
+import {
+  errorMessage,
+  loadingMessage,
+} from "../../../utils/sonnerToastMessage";
 export type TTableData = Pick<TSemester, "startDate" | "endDate" | "status">;
 
 const items = [
@@ -25,14 +31,11 @@ const items = [
 ];
 
 const RegisteredSemester = () => {
-  // const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
   const [semesterId, setSemesterId] = useState("");
   const { data: semesterData, isFetching } =
     useGetAllRegisteredSemestersQuery(undefined);
 
   const [updateSemesterStatus] = useUpdateRegisteredSemesterMutation();
-
-  console.log(semesterId);
 
   const tableData = semesterData?.data?.map(
     ({ _id, academicSemester, startDate, endDate, status }) => ({
@@ -44,7 +47,8 @@ const RegisteredSemester = () => {
     })
   );
 
-  const handleStatusUpdate = (data:any) => {
+  const handleStatusUpdate = async (data: any) => {
+    const toastId = loadingMessage("Loading...", 3000);
     const updateData = {
       id: semesterId,
       data: {
@@ -52,7 +56,16 @@ const RegisteredSemester = () => {
       },
     };
 
-    updateSemesterStatus(updateData);
+    try {
+      const res = (await updateSemesterStatus(updateData)) as TCreateResponse;
+      if (res.error as TError) {
+        errorMessage(res.error?.data?.message, 3000, toastId);
+      } else {
+        toast.success("successfully update semester registration status");
+      }
+    } catch (error) {
+      toast.error("something wen wrong!!!");
+    }
   };
 
   const menuProps = {

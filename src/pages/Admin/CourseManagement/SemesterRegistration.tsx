@@ -1,14 +1,14 @@
 import { Button, Col, Flex } from "antd";
-import FormWrapper from "../../../components/Form/Form";
-import SelectComponent from "../../../components/Form/Select";
-import CDatePicker from "../../../components/Form/DatePicker";
-import InputValue from "../../../components/Form/Input";
-import { TCreateResponse } from "../../../types";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { useGetAllAcademicSemesterQuery } from "../../../redux/features/admin/AcademicManagement/academicSemesterApi";
+import CDatePicker from "../../../components/Form/DatePicker";
+import FormWrapper from "../../../components/Form/Form";
+import InputValue from "../../../components/Form/Input";
+import SelectComponent from "../../../components/Form/Select";
 import { semesterStatusOptions } from "../../../constant/semester";
-import { useAddRegisteredSemesterMutation } from "../../../redux/features/admin/CourseManagement/CourseManagement";
+import { useGetAllAcademicSemesterQuery } from "../../../redux/features/admin/AcademicManagement/academicSemesterApi";
+import { useAddRegisteredSemesterMutation } from "../../../redux/features/admin/CourseManagement/CourseManagementApi";
+import { TCreateResponse } from "../../../types";
 
 const SemesterRegistration = () => {
   const [addSemester] = useAddRegisteredSemesterMutation();

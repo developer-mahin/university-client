@@ -17,13 +17,13 @@ export const infoMessage = (
 };
 
 export const errorMessage = (
-  message: string,
+  message: string | undefined,
   duration: number,
   id?: string | number
 ) => {
   return toast.error(message, { duration, id: id });
 };
 
-export const loadingMessage = (message: string, duration: number) => {
+export const loadingMessage = (message: string, duration?: number) => {
   return toast.loading(message, { duration });
 };

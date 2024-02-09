@@ -29,6 +29,7 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+
     addRegisteredSemester: builder.mutation({
       query: (data) => ({
         url: "/semester-registration/create-semester-registration",
@@ -37,14 +38,16 @@ const courseManagementApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["semester"],
     }),
+
     updateRegisteredSemester: builder.mutation({
       query: (args) => ({
-        url: `/semester-registrations/${args.id}`,
+        url: `/semester-registration/${args.id}`,
         method: "PATCH",
         body: args.data,
       }),
       invalidatesTags: ["semester"],
     }),
+
     getAllCourses: builder.query({
       query: (args) => {
         const params = new URLSearchParams();
@@ -69,6 +72,18 @@ const courseManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+
+    getCourseWithFaculties: builder.query({
+      query: (courseId) => {
+        console.log("id", courseId);
+        return {
+          url: `/courses/${courseId}/get-faculties`,
+          method: "GET",
+        };
+      },
+      providesTags: ["courses"],
+    }),
+
     addCourse: builder.mutation({
       query: (data) => ({
         url: `/courses/create-course`,
@@ -77,6 +92,7 @@ const courseManagementApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["courses"],
     }),
+
     addFaculties: builder.mutation({
       query: (args) => ({
         url: `/courses/${args.courseId}/assign-faculties`,
@@ -95,4 +111,5 @@ export const {
   useGetAllCoursesQuery,
   useAddCourseMutation,
   useAddFacultiesMutation,
+  useGetCourseWithFacultiesQuery,
 } = courseManagementApi;
