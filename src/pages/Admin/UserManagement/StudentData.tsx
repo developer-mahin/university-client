@@ -98,6 +98,7 @@ const StudentData = () => {
       setParams(queryParams);
     }
   };
+  
   return (
     <>
       <Table

@@ -13,6 +13,12 @@ export const nameOptions = [
   },
 ];
 
+export const semesterStatusOptions = [
+  { value: "UPCOMING", label: "Upcoming" },
+  { value: "ONGOING", label: "Ongoing" },
+  { value: "ENDED", label: "Ended" },
+];
+
 const currentYear = new Date().getFullYear();
 export const years = [0, 1, 2, 3, 4].map((item) => ({
   value: String(currentYear + item),
