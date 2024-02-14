@@ -11,10 +11,14 @@ import { daysOptions } from "../../../constant/CourseManagement";
 import { useGetAllAcademicDepartmentQuery } from "../../../redux/features/admin/AcademicManagement/academicDepartmentApi";
 import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 import {
+  useCreateOfferedCourseMutation,
   useGetAllCoursesQuery,
   useGetAllRegisteredSemestersQuery,
   useGetCourseWithFacultiesQuery,
 } from "../../../redux/features/admin/CourseManagement/CourseManagementApi";
+import { TCreateResponse } from "../../../types";
+import { toast } from "sonner";
+import moment from "moment";
 
 const OfferCourse = () => {
   const [id, setId] = useState("");
@@ -25,7 +29,9 @@ const OfferCourse = () => {
   const { data: academicDepartment } =
     useGetAllAcademicDepartmentQuery(undefined);
   const { data: courses } = useGetAllCoursesQuery(undefined);
-  const { data: coursesWithFaculties } = useGetCourseWithFacultiesQuery(id);
+  const { data: coursesWithFaculties, isFetching: facultyFetching } =
+    useGetCourseWithFacultiesQuery(id, { skip: !id });
+  const [createOfferedCourse] = useCreateOfferedCourseMutation();
 
   const semesterOptions = semesterRegistration?.data
     ?.filter((item) => item.status === "ONGOING")
@@ -56,8 +62,30 @@ const OfferCourse = () => {
     })
   );
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Creating...");
+
+    const offerCourseData = {
+      ...data,
+      maxCapacity: Number(data.maxCapacity),
+      section: Number(data.section),
+      startTime: moment(new Date(data.startTime)).format("HH:mm"),
+      endTime: moment(new Date(data.endTime)).format("HH:mm"),
+    };
+
+    try {
+      const res = (await createOfferedCourse(
+        offerCourseData
+      )) as TCreateResponse;
+
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Offered Courses created", { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   return (
@@ -90,7 +118,7 @@ const OfferCourse = () => {
             label="Faculty"
             name="faculty"
             options={facultyOptions}
-            disabled={!id}
+            disabled={!id || facultyFetching}
           />
 
           <InputValue

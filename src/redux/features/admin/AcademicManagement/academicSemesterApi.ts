@@ -20,6 +20,8 @@ const academicManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["academicSemester"],
+
       transformResponse: (response: TResponseRedux<TAcademicSemester[]>) => {
         const data = response.data;
         const meta = response.meta;
@@ -38,6 +40,8 @@ const academicManagementApi = baseApi.injectEndpoints({
           body: data,
         };
       },
+
+      invalidatesTags: ["academicSemester"],
     }),
   }),
 });

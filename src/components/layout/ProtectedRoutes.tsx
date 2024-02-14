@@ -1,17 +1,31 @@
-import { ReactNode, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
+import { jwtDecode } from "jwt-decode";
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
+import { TUserDate, logout } from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
+type TProtectedRoutesProps = {
+  children: ReactNode;
+  role: string | undefined;
+};
+
+const ProtectedRoutes = ({ children, role }: TProtectedRoutesProps) => {
   const token = useAppSelector((state) => state.auth.token);
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (!token) {
-      //   return <Navigate to="/login" replace />;
-      return navigate("/login");
-    }
-  }, [token, navigate]);
+  let user;
+  if (token) {
+    user = jwtDecode(token);
+  }
+
+  if (role !== undefined && role !== (user as TUserDate)?.role) {
+    dispatch(logout());
+    return <Navigate to="/login" replace={true} />;
+  }
+
+  if (!token) {
+    return <Navigate to="/login" replace={true} />;
+  }
 
   return children;
 };

@@ -12,17 +12,20 @@ import {
   loadingMessage,
   successMessage,
 } from "../../../utils/sonnerToastMessage";
+import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 // import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 
 const CreateAcademicDepartment = () => {
   const [createAcademicDepartment] = useCreateAcademicDepartmentMutation();
-  // const { data: getAllAcademicFaculties } =
-  //   useGetAllAcademicFacultiesQuery(undefined);
+  const { data: getAllAcademicFaculties } =
+    useGetAllAcademicFacultiesQuery(undefined);
 
-  // const departmentOptions = getAllAcademicFaculties?.data?.map((item)=>({
-  //   value:item._id,
-  //   label:item.name
-  // }));
+  const academicFacultyId = getAllAcademicFaculties?.data?.map((item) => ({
+    value: item._id,
+    label: item.name,
+  }));
+
+  console.log(academicFacultyId);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = loadingMessage("Loading...", 3000);

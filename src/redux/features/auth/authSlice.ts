@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type TUserDate = {
+export type TUserDate = {
   userId: string;
   role: string;
   iat: number;

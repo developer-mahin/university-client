@@ -15,11 +15,11 @@ export const nameOptions = [
 
 export const nameOfDepartment = [
   {
-    value: "65bc7161f6f511a6d4e04e61",
+    value: "65c7ab00929d14e393a00ae3",
     label: "Department of programming",
   },
   {
-    value: "65c2528b459fbf70e50f0203",
+    value: "65c7aafb929d14e393a00ae0",
     label: "Department of Web Development",
   },
 ];

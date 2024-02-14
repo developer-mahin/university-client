@@ -26,7 +26,7 @@ const MainLayout = () => {
           </Button>
         </Header>
         <Content style={{ margin: "24px 16px 0" }}>
-          <div>
+          <div className="py-10">
             <Outlet />
           </div>
         </Content>

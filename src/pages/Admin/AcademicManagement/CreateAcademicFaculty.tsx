@@ -3,8 +3,7 @@ import { Button, Col, Flex, Typography } from "antd";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { academicFacultySchema } from "../../../Schemas/academiManagement.schema";
 import FormWrapper from "../../../components/Form/Form";
-import SelectComponent from "../../../components/Form/Select";
-import { nameOptions } from "../../../constant/academiManagement";
+import InputValue from "../../../components/Form/Input";
 import { useCreateAcademicFacultyMutation } from "../../../redux/features/admin/AcademicManagement/academicFacultyApi";
 import { TCreateResponse } from "../../../types";
 import {
@@ -47,12 +46,20 @@ const CreateAcademicFaculty = () => {
           onSubmit={onSubmit}
           resolver={zodResolver(academicFacultySchema)}
         >
-          <SelectComponent
+          {/* <SelectComponent
             byDefault="Select..."
             label="Name Of Faculty"
             name="name"
             options={nameOptions}
+          /> */}
+
+          <InputValue
+            placeholder="Enter a Faculty name"
+            type="text"
+            label="Name Of Faculty"
+            name="name"
           />
+
           <Button htmlType="submit">Submit</Button>
         </FormWrapper>
       </Col>

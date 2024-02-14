@@ -9,7 +9,7 @@ import logo from "../assets/images/Standards GPT 1.png";
 import FormWrapper from "../components/Form/Form";
 import InputValue from "../components/Form/Input";
 import { useLoginMutation } from "../redux/features/auth/authApi";
-import { setUser } from "../redux/features/auth/authSlice";
+import { TUserDate, setUser } from "../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { decodedToken } from "../utils/jwtDecoded";
 import {
@@ -23,6 +23,18 @@ const Login = () => {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
+  const { user, token } = useAppSelector((state) => state.auth) as {
+    user: { role: string };
+    token: string;
+  };
+
+  const defaultValues = {
+    id: "2025030001",
+    password: "123456234",
+  };
+
+  // new: 123456234
+
   const onSubmit = async (data: FieldValues) => {
     loadingMessage("Logging in...", 2000);
     try {
@@ -31,23 +43,27 @@ const Login = () => {
         password: data.password,
       };
       const res = await login(userInfo).unwrap();
+
       const user = decodedToken(res.data.accessToken);
       dispatch(setUser({ user, token: res.data.accessToken }));
+
+      if (res.data.needsPasswordChange) {
+        navigate(`/change-password`);
+      } else {
+        navigate(`/${(user as TUserDate)?.role}/dashboard`);
+      }
+
       successMessage("Logged in successful", 4000);
     } catch (error: any) {
       errorMessage(error.message, 2000);
     }
   };
 
-  const { user, token } = useAppSelector((state) => state.auth) as {
-    user: { role: string };
-    token: string;
-  };
-  useEffect(() => {
-    if (token) {
-      return navigate(`/${user?.role}/dashboard`);
-    }
-  }, [token, user, navigate]);
+  // useEffect(() => {
+  //   if (token) {
+  //     return navigate(`/${user?.role}/dashboard`);
+  //   }
+  // }, [token, user, navigate]);
 
   return (
     <div className="bg-[#E9EEF1] h-screen flex justify-center items-center py-[150px]">
@@ -59,7 +75,7 @@ const Login = () => {
           </p>
         </div>
         <div className="p-10  bg-white rounded-[10px] mt-10">
-          <FormWrapper onSubmit={onSubmit}>
+          <FormWrapper onSubmit={onSubmit} defaultValues={defaultValues}>
             <h4 className="text-xl font-family-lato font-extrabold text-center">
               Login
             </h4>

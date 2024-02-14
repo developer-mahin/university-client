@@ -1,6 +1,6 @@
-import { Controller } from "react-hook-form";
-import dayjs from "dayjs";
 import { Form, TimePicker } from "antd";
+import dayjs from "dayjs";
+import { Controller } from "react-hook-form";
 
 type TTimePickerProps = {
   name: string;
@@ -17,7 +17,8 @@ const ITimePicker = ({ name, label }: TTimePickerProps) => {
             size="large"
             className="w-full"
             {...field}
-            defaultValue={dayjs("00:00:00", "HH:mm:ss")}
+            format="HH:mm"
+            defaultValue={dayjs("00:00", "HH:MM")}
           />
         </Form.Item>
       )}
